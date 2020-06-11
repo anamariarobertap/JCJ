@@ -1,17 +1,17 @@
 package com.mygdx.game.sprites;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.JumpCookieJump;
 
 import javax.swing.*;
 
 public class Ingredient extends Character {
 
+
+    private final int BLANK_COCOA = 28;
     private Animation cocoa;
 
     public Ingredient(World world) {
@@ -21,6 +21,7 @@ public class Ingredient extends Character {
         previousState = CharacterState.cocoa;
         cocoa = createAnimation("sprites/incredients/cocoa.atlas");
         setBounds(3, 3, 25 / JumpCookieJump.PPM, 25 / JumpCookieJump.PPM);
+
 
     }
 
@@ -38,8 +39,10 @@ public class Ingredient extends Character {
         fDef.shape = pShape;
         fDef.isSensor = true;
 
+
         body = world.createBody(bDef);
-        body.createFixture(fDef);
+        Fixture fixture = body.createFixture(fDef);
+        fixture.setUserData(this);
 
         pShape.dispose();
 
@@ -47,8 +50,8 @@ public class Ingredient extends Character {
 
     @Override
     public void update(float delta) {
-        setPosition(body.getPosition().x - getWidth() / 1+ 1.5f / JumpCookieJump.PPM,
-                body.getPosition().y - getHeight() / 2+ 2.5f / JumpCookieJump.PPM);
+        setPosition(body.getPosition().x - getWidth() / 2 - 1.5f / JumpCookieJump.PPM,
+                body.getPosition().y - getHeight() / 2 + 2.5f / JumpCookieJump.PPM);
         setRegion(getFrame(delta));
     }
 
@@ -79,4 +82,7 @@ public class Ingredient extends Character {
     protected CharacterState getState() {
         return CharacterState.cocoa;
     }
+
+
+
 }

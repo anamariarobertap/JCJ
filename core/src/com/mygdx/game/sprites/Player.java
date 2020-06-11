@@ -5,14 +5,12 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.JumpCookieJump;
+
+import static com.mygdx.game.JumpCookieJump.COOKIE_BIT;
 
 public class Player extends Character {
 	
@@ -21,7 +19,8 @@ public class Player extends Character {
 	private Animation jump;
 	private Animation run;
 	private Animation sad;
-	
+
+
 	public Player(World world) {
 		super(world);
 		
@@ -38,6 +37,19 @@ public class Player extends Character {
 		sad = createAnimation("sprites/cookie/sad.atlas");
 	}
 
+	public void hitByNurse(Nurse nurse) {
+		reverseVelocity(true, false);
+	}
+
+	protected Vector2 velocity;
+
+	public void reverseVelocity(boolean x, boolean y){
+		if(x)
+			velocity.x = -velocity.x;
+		if(y)
+			velocity.y = -velocity.y;
+	}
+
 	@Override
 	protected void defineCharacter() {
 		bDef = new BodyDef();
@@ -49,14 +61,19 @@ public class Player extends Character {
 		
 		fDef = new FixtureDef();
 		fDef.shape = pShape;
-		fDef.density =0.1f;
-		fDef.restitution = 0.3f;
-		fDef.filter.categoryBits = PHYSICS_ENTITY;
-		fDef.filter.maskBits = WORLD_ENTITY|PHYSICS_ENTITY;
+		fDef.filter.categoryBits = JumpCookieJump.COOKIE_BIT;
+		fDef.filter.maskBits = JumpCookieJump.DEFAUL_BIT | JumpCookieJump.COCOA_BIT;
 		
 		body = world.createBody(bDef);
 		body.createFixture(fDef);
 		pShape.dispose();
+		EdgeShape head = new EdgeShape();
+		head.set(new Vector2(-2/JumpCookieJump.PPM, 7/JumpCookieJump.PPM), new Vector2(2/JumpCookieJump.PPM, 7/JumpCookieJump.PPM));
+		fDef.shape = head;
+		fDef.isSensor = true;
+
+		body.createFixture(fDef).setUserData("head");
+
 	}
 
 	@Override

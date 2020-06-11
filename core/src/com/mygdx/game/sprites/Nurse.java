@@ -46,8 +46,8 @@ public class Nurse extends Character {
         fDef.shape = pShape;
         fDef.density =0.1f;
         fDef.restitution = 0.5f;
-        fDef.filter.categoryBits = PHYSICS_ENTITY;
-        fDef.filter.maskBits = WORLD_ENTITY|PHYSICS_ENTITY;
+        //fDef.filter.categoryBits = PHYSICS_ENTITY;
+        //fDef.filter.maskBits = WORLD_ENTITY|PHYSICS_ENTITY;
 
         body = world.createBody(bDef);
         body.createFixture(fDef);
@@ -58,8 +58,8 @@ public class Nurse extends Character {
 
     @Override
     public void update(float delta) {
-        setPosition(body.getPosition().x - getWidth() / 1+ 1.5f / JumpCookieJump.PPM,
-                body.getPosition().y - getHeight() / 2+ 2.5f / JumpCookieJump.PPM);
+        setPosition(body.getPosition().x - getWidth() / 2 - 1.5f / JumpCookieJump.PPM,
+                body.getPosition().y - getHeight() / 2 + 2.5f / JumpCookieJump.PPM);
         setRegion(getFrame(delta));
     }
 

@@ -57,6 +57,7 @@ public class GameScreen extends AbstractScreen {
     // map variables
     private TmxMapLoader mapLoader;
     private TiledMap gameMap;
+
     private OrthogonalTiledMapRenderer mapRenderer;
 
     // physics variables
@@ -79,6 +80,7 @@ public class GameScreen extends AbstractScreen {
     private final Music nurseMusic;
 
     final float PIXELS_TO_METERS = 5f;
+    protected Fixture fixture;
 
     public GameScreen(final JumpCookieJump game) {
         this(game, 1);
@@ -95,6 +97,7 @@ public class GameScreen extends AbstractScreen {
 
         mapLoader = new TmxMapLoader();
         gameMap = mapLoader.load("Maps/Tilemap/level" + level + ".tmx");
+
         mapRenderer = new OrthogonalTiledMapRenderer(gameMap, 1 / JumpCookieJump.PPM);
         // sets it to the middle
         cam.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
@@ -104,7 +107,7 @@ public class GameScreen extends AbstractScreen {
         cookieMaster = new Player(world);
         nurse1 = new Nurse(world);
 
-        //create Array of ingredients
+        cocoa = new Ingredient(world);
 
         // adding the background
         backgroundTexture = new Texture("background/game_background.jpg");
@@ -137,7 +140,6 @@ public class GameScreen extends AbstractScreen {
     }
 
 
-
     private void buildMapCollisionObjects() {
         // vector: gravity, true: objects that are at rest sleep (no calculations)
         world = new World(new Vector2(0, -1000 / JumpCookieJump.PPM), true);
@@ -163,7 +165,7 @@ public class GameScreen extends AbstractScreen {
             fDef.shape = pShape;
 
             body = world.createBody(bDef);
-            body.createFixture(fDef);
+            fixture = body.createFixture(fDef);
         }
         // ground which is a polygon (e.g. corners)
         for (MapObject obj : gameMap.getLayers().get(4).getObjects().getByType(PolygonMapObject.class)) {
@@ -183,25 +185,39 @@ public class GameScreen extends AbstractScreen {
         world.setContactListener(new ContactListener() {
             @Override
             public void beginContact(Contact contact) {
-                // Check to see if the collision is between the cookiemaster and the nurse
-                // If so apply a random amount of upward force to both objects... just because
-                if ((contact.getFixtureA().getBody() == cookieMaster.getBody() &&
-                        contact.getFixtureB().getBody() == nurse1.getBody())
-                        ||
-                        (contact.getFixtureA().getBody() == nurse1.getBody() &&
-                                contact.getFixtureB().getBody() == cookieMaster.getBody())) {
 
-                    cookieMaster.getBody().applyForceToCenter(0, MathUtils.random(0f, 0.2f), true);
-                    nurse1.getBody().applyForceToCenter(0, MathUtils.random(0, 1), true);
-                    nurseMusic.play();
+                if ((contact.getFixtureA().getBody() == cocoa.getBody()) && contact.getFixtureB().getBody() == cookieMaster.getBody() ||
+                        (contact.getFixtureA().getBody() == cookieMaster.getBody() &&
+                                contact.getFixtureB().getBody() == cocoa.getBody())) {
+                    System.out.println("touched");
+                    //cookieMaster.getBody().applyForceToCenter(0, MathUtils.random(0f, 0.2f), true);
+                    cookieMaster.hitByNurse(nurse1);
                 }
-
             }
 
             @Override
             public void endContact(Contact contact) {
 
-                System.out.println("Cookie");
+                // Check to see if the collision is between the cookiemaster and the nurse
+                // If so apply a random amount of upward force to both objects... just because
+
+               /* if ((contact.getFixtureA().getBody() == cookieMaster.getBody() &&
+                        contact.getFixtureB().getBody() == nurse1.getBody())
+                        ||
+                        (contact.getFixtureA().getBody() == nurse1.getBody() &&
+                                contact.getFixtureB().getBody() == cookieMaster.getBody())) {
+
+                    //cookieMaster.getBody().applyForceToCenter(0, MathUtils.random(0f, 0.2f), true);
+                    nurse1.getBody().applyForceToCenter(0, MathUtils.random(0, 1), true);
+                    nurseMusic.play();
+                }
+                else if ((contact.getFixtureA().getBody() == cocoa.getBody())&&contact.getFixtureB().getBody() == cookieMaster.getBody() ||
+                        (contact.getFixtureA().getBody() == cookieMaster.getBody() &&
+                                contact.getFixtureB().getBody() == cocoa.getBody())) {
+                    System.out.println("touched");
+                    cookieMaster.getBody().applyForceToCenter(0, MathUtils.random(0f, 0.2f), true);
+                    cocoa.getWorld().dispose();
+                }*/
 
             }
 
@@ -261,10 +277,29 @@ public class GameScreen extends AbstractScreen {
     }
 
 
-   /* public void handleNurse(Nurse nurse)
-    {
 
-        if(Gdx.input.isTouched()) { // Detect is finger on the screen
+    public void handleNurse(Nurse nurse)
+    {
+        double i = 0;
+
+        while (i<100) {
+           //nurse.getBody().applyLinearImpulse(new Vector2(10f / JumpCookieJump.PPM, 0), nurse.getBody().getWorldCenter() , true);
+            //nurse.getBody().setLinearVelocity(10f / JumpCookieJump.PPM,Gdx.input.getY());
+            //nurse.getBody().setTransform(10.0f,0,1);
+
+            for (int j = 0; j<30; j++) {
+                //nurse.getBody().setLinearVelocity(-10f / JumpCookieJump.PPM, Gdx.input.getY());
+               // nurse.getBody().applyLinearImpulse(new Vector2(-10f / JumpCookieJump.PPM, 0), nurse.getBody().getWorldCenter() , true);
+            }
+
+            i=i+1;
+            System.out.println(i);
+
+        }
+
+    }
+
+        /*if(Gdx.input.isTouched()) { // Detect is finger on the screen
             int x = Gdx.input.getX(); // get x touch coordination
             int y = Gdx.input.getY(); // get y touch coordination
 
@@ -356,22 +391,23 @@ public class GameScreen extends AbstractScreen {
         nurse1.update(delta);
         cocoa.update(delta);
 
+
+
         // render player textures
         stage.getBatch().setProjectionMatrix(cam.combined);
         stage.getBatch().begin();
         cookieMaster.draw(stage.getBatch());
         cocoa.draw(stage.getBatch());
-        //nurse1.draw(stage.getBatch());
-        stage.getBatch().draw(nurse1, nurse1.getX(), nurse1.getY(),nurse1.getOriginX(),
-                nurse1.getOriginY(),
-                nurse1.getWidth(),nurse1.getHeight(),nurse1.getScaleX(),nurse1.
-                        getScaleY(),nurse1.getRotation());
+        nurse1.draw(stage.getBatch());
         stage.getBatch().end();
 
         stage.getBatch().setProjectionMatrix(cam.combined);
 
+
         stage.act(delta);
         stage.draw();
+
+        handleNurse(nurse1);
     }
 
     public float clamp(float var, float max, float min) {

@@ -13,6 +13,12 @@ public class JumpCookieJump extends Game {
 	public static final int V_HEIGHT = 1080;
 //	public static final int V_SCALE = 6;
 	public static final float PPM = 100; // pixels per meter
+	public static final short COOKIE_BIT =2;
+	public static final short COCOA_BIT =4;
+	public static final short DEFAUL_BIT =1;
+	public static final short DESTROYED_BIT =16;
+
+
 
 	/**
 	 * Rendering utilities
@@ -37,6 +43,8 @@ public class JumpCookieJump extends Game {
 		menuScreen = new MenuScreen(this);
 		this.setScreen(menuScreen);
 	}
+
+
 
 	@Override
 	public void render () {
