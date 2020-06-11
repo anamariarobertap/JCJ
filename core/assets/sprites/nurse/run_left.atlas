@@ -1,0 +1,33 @@
+run_left.png
+size: 88, 124
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+walk_left01
+  rotate: false
+  xy: 0, 0
+  size: 44, 62
+  orig: 44, 62
+  offset: 0, 0
+  index: -1
+walk_left02
+  rotate: false
+  xy: 44, 0
+  size: 44, 62
+  orig: 44, 62
+  offset: 0, 0
+  index: -1
+walk_left03
+  rotate: false
+  xy: 0, 62
+  size: 44, 62
+  orig: 44, 62
+  offset: 0, 0
+  index: -1
+walk_left04
+  rotate: false
+  xy: 44, 62
+  size: 44, 62
+  orig: 44, 62
+  offset: 0, 0
+  index: -1

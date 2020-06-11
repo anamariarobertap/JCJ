@@ -1,0 +1,33 @@
+run_left.png
+size: 494, 494
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+run_left00
+  rotate: false
+  xy: 0, 0
+  size: 247, 247
+  orig: 247, 247
+  offset: 0, 0
+  index: -1
+run_left01
+  rotate: false
+  xy: 247, 0
+  size: 247, 247
+  orig: 247, 247
+  offset: 0, 0
+  index: -1
+run_left02
+  rotate: false
+  xy: 0, 247
+  size: 247, 247
+  orig: 247, 247
+  offset: 0, 0
+  index: -1
+run_left03
+  rotate: false
+  xy: 247, 247
+  size: 247, 247
+  orig: 247, 247
+  offset: 0, 0
+  index: -1

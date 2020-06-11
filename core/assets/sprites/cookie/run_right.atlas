@@ -1,0 +1,33 @@
+run_right.png
+size: 496, 496
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+run_right00
+  rotate: false
+  xy: 0, 0
+  size: 248, 248
+  orig: 248, 248
+  offset: 0, 0
+  index: -1
+run_right01
+  rotate: false
+  xy: 248, 0
+  size: 248, 248
+  orig: 248, 248
+  offset: 0, 0
+  index: -1
+run_right02
+  rotate: false
+  xy: 0, 248
+  size: 248, 248
+  orig: 248, 248
+  offset: 0, 0
+  index: -1
+run_right03
+  rotate: false
+  xy: 248, 248
+  size: 248, 248
+  orig: 248, 248
+  offset: 0, 0
+  index: -1

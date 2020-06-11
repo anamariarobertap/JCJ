@@ -1,0 +1,19 @@
+jump_right.png
+size: 248, 496
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+jump_right01
+  rotate: false
+  xy: 0, 0
+  size: 248, 248
+  orig: 248, 248
+  offset: 0, 0
+  index: -1
+jump_right02
+  rotate: false
+  xy: 0, 248
+  size: 248, 248
+  orig: 248, 248
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,117 @@
+idle2.png
+size: 2880, 310
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+00
+  rotate: false
+  xy: 0, 0
+  size: 240, 310
+  orig: 240, 310
+  offset: 0, 0
+  index: -1
+02
+  rotate: false
+  xy: 240, 0
+  size: 240, 310
+  orig: 240, 310
+  offset: 0, 0
+  index: -1
+03
+  rotate: false
+  xy: 480, 0
+  size: 240, 310
+  orig: 240, 310
+  offset: 0, 0
+  index: -1
+04
+  rotate: false
+  xy: 720, 0
+  size: 240, 310
+  orig: 240, 310
+  offset: 0, 0
+  index: -1
+05
+  rotate: false
+  xy: 960, 0
+  size: 240, 310
+  orig: 240, 310
+  offset: 0, 0
+  index: -1
+06
+  rotate: false
+  xy: 1200, 0
+  size: 240, 310
+  orig: 240, 310
+  offset: 0, 0
+  index: -1
+08
+  rotate: false
+  xy: 1440, 0
+  size: 240, 310
+  orig: 240, 310
+  offset: 0, 0
+  index: -1
+10
+  rotate: false
+  xy: 1680, 0
+  size: 240, 310
+  orig: 240, 310
+  offset: 0, 0
+  index: -1
+11
+  rotate: false
+  xy: 1920, 0
+  size: 240, 310
+  orig: 240, 310
+  offset: 0, 0
+  index: -1
+12
+  rotate: false
+  xy: 2160, 0
+  size: 240, 310
+  orig: 240, 310
+  offset: 0, 0
+  index: -1
+13
+  rotate: false
+  xy: 2400, 0
+  size: 240, 310
+  orig: 240, 310
+  offset: 0, 0
+  index: -1
+14
+  rotate: false
+  xy: 2640, 0
+  size: 240, 310
+  orig: 240, 310
+  offset: 0, 0
+  index: -1
+01
+  rotate: false
+  xy: 0, 0
+  size: 240, 310
+  orig: 240, 310
+  offset: 0, 0
+  index: -1
+07
+  rotate: false
+  xy: 0, 0
+  size: 240, 310
+  orig: 240, 310
+  offset: 0, 0
+  index: -1
+09
+  rotate: false
+  xy: 1440, 0
+  size: 240, 310
+  orig: 240, 310
+  offset: 0, 0
+  index: -1
+15
+  rotate: false
+  xy: 1440, 0
+  size: 240, 310
+  orig: 240, 310
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,19 @@
+jump_left.png
+size: 247, 494
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+jump_left01
+  rotate: false
+  xy: 0, 0
+  size: 247, 247
+  orig: 247, 247
+  offset: 0, 0
+  index: -1
+jump_left02
+  rotate: false
+  xy: 0, 247
+  size: 247, 247
+  orig: 247, 247
+  offset: 0, 0
+  index: -1

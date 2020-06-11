@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="right-down" width="150" height="10" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="31">
+ <tileset firstgid="1" source="tileset2.tsx"/>
+ <layer id="1" name="background1" width="150" height="10">
+  <data encoding="base64" compression="zlib">
+   eJztw0ENAAAMA6GzU/8GJ2JfSFg1VVVVVVX19QDcF/A9
+  </data>
+ </layer>
+ <layer id="2" name="background2" width="150" height="10">
+  <data encoding="base64" compression="zlib">
+   eJztk9kNwyAQRCkiRwVJGzn+EyVt5P7JnTZyN5vJBxJCsMbrtY0lnjRaJJthYEGpbDbQFtoF/FulVxl+TVvfRyw920MHz7c39IG+zFymt8vLt3bIfqhs1J58UGu6/IqeTZY/t6d2Ls5Z+LxsP6k7LLl/Cl/PJO+L7SV1T4q8FZOsPNJvh+Mp+baq9JYglnwx5IghQyIhTQtqQx2oW3OWRDn0oL5RlTWW9NZ1AA2hETQWWKdpnKEL8d3VkzxQ8ybQlOGZlxk0N6qyxpLeui6gJbSC1sR8fQZH6CSQpym4esKZXydX6GZUZY01nN7a3rreoQf0hF6s1G6qeot/qPMomsPVE878RCIRxg8/7lTc
+  </data>
+ </layer>
+ <layer id="3" name="background3" width="150" height="10">
+  <data encoding="base64" compression="zlib">
+   eJzt0TcOwjAUgGHvtIVyggAnoC2UE4Qj0BYCM0jhCLSFchPa5fiHIEUoSI6EFYTfL31LZDvPslKSJEmSJElSnFJII4MscsmOI/1JNdTRQBOtZMexujwKKKKU8CxROShrrh1giBHGmJgaysIcFe8t2uigi17oDN39pnPR11y7xgZb7LA3NVRQBVXD//iVXBXvLabwMMM8dIbuftP5WL19W2AZsfaCK2644xF8t+n9X3f99p19Ff0WnzrgiBPOoTN090uS7T0B558X0A==
+  </data>
+ </layer>
+ <layer id="4" name="collision" width="150" height="10">
+  <data encoding="base64" compression="zlib">
+   eJzt08sNgCAQhGFoh2asxf4vXDiYMS6vFTT5v2SuwA4QAgAAAADAQ3oIxtFlG97d3eh/fKvLQ7LSzr2/Qjv4ax969lOyci7d25N1X7sSS6z+r4mS2rqe6Z3NmsN6Y60zzZzFs4+eOWeSAbRfPKc=
+  </data>
+ </layer>
+ <objectgroup id="5" name="ground">
+  <object id="1" x="0" y="288" width="352" height="32"/>
+  <object id="2" x="416" y="288" width="320" height="32"/>
+  <object id="3" x="512" y="256" width="224" height="32"/>
+  <object id="4" x="864" y="288" width="192" height="32"/>
+  <object id="5" x="1728" y="288" width="1024" height="32"/>
+  <object id="6" x="2112" y="256" width="352" height="32"/>
+  <object id="7" x="2240" y="224" width="128" height="32"/>
+  <object id="8" x="2880" y="288" width="480" height="32"/>
+  <object id="9" x="3232" y="224" width="128" height="64"/>
+  <object id="11" x="3904" y="288" width="896" height="32"/>
+  <object id="12" x="3968" y="256" width="832" height="32"/>
+  <object id="13" x="3680" y="192" width="160" height="32"/>
+  <object id="14" x="3392" y="160" width="192" height="32"/>
+  <object id="15" x="1536" y="224" width="160" height="32"/>
+  <object id="16" x="1312" y="192" width="128" height="32"/>
+  <object id="17" x="1088" y="224" width="192" height="32"/>
+  <object id="28" x="-32" y="-32" width="32" height="352"/>
+  <object id="29" x="0.5" y="-32" width="4799.5" height="32"/>
+  <object id="30" x="4800" y="-31.9242" width="32" height="351.727"/>
+ </objectgroup>
+ <objectgroup id="6" name="water">
+  <object id="18" x="352" y="288" width="64" height="32"/>
+  <object id="19" x="736" y="288" width="128" height="32"/>
+  <object id="20" x="1056" y="288" width="672" height="32"/>
+  <object id="21" x="2752" y="288" width="128" height="32"/>
+  <object id="22" x="3360" y="288" width="544" height="32"/>
+ </objectgroup>
+ <objectgroup id="7" name="border" visible="0">
+  <object id="23" x="-32" y="-32" width="32" height="353"/>
+  <object id="25" x="0.5" y="-32" width="4800" height="32"/>
+  <object id="26" x="4800" y="-31.9242" width="32" height="351.727"/>
+ </objectgroup>
+</map>

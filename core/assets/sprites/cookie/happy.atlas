@@ -1,0 +1,61 @@
+happy.png
+size: 496, 248
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+happy00
+  rotate: false
+  xy: 0, 0
+  size: 248, 248
+  orig: 248, 248
+  offset: 0, 0
+  index: -1
+happy01
+  rotate: false
+  xy: 248, 0
+  size: 248, 248
+  orig: 248, 248
+  offset: 0, 0
+  index: -1
+happy02
+  rotate: false
+  xy: 0, 0
+  size: 248, 248
+  orig: 248, 248
+  offset: 0, 0
+  index: -1
+happy03
+  rotate: false
+  xy: 0, 0
+  size: 248, 248
+  orig: 248, 248
+  offset: 0, 0
+  index: -1
+happy04
+  rotate: false
+  xy: 0, 0
+  size: 248, 248
+  orig: 248, 248
+  offset: 0, 0
+  index: -1
+happy05
+  rotate: false
+  xy: 0, 0
+  size: 248, 248
+  orig: 248, 248
+  offset: 0, 0
+  index: -1
+happy07
+  rotate: false
+  xy: 0, 0
+  size: 248, 248
+  orig: 248, 248
+  offset: 0, 0
+  index: -1
+happy06
+  rotate: false
+  xy: 248, 0
+  size: 248, 248
+  orig: 248, 248
+  offset: 0, 0
+  index: -1

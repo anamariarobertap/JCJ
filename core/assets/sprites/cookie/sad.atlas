@@ -1,0 +1,61 @@
+sad.png
+size: 496, 248
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+sad00
+  rotate: false
+  xy: 0, 0
+  size: 248, 248
+  orig: 248, 248
+  offset: 0, 0
+  index: -1
+sad01
+  rotate: false
+  xy: 248, 0
+  size: 248, 248
+  orig: 248, 248
+  offset: 0, 0
+  index: -1
+sad02
+  rotate: false
+  xy: 0, 0
+  size: 248, 248
+  orig: 248, 248
+  offset: 0, 0
+  index: -1
+sad03
+  rotate: false
+  xy: 0, 0
+  size: 248, 248
+  orig: 248, 248
+  offset: 0, 0
+  index: -1
+sad04
+  rotate: false
+  xy: 0, 0
+  size: 248, 248
+  orig: 248, 248
+  offset: 0, 0
+  index: -1
+sad05
+  rotate: false
+  xy: 0, 0
+  size: 248, 248
+  orig: 248, 248
+  offset: 0, 0
+  index: -1
+sad07
+  rotate: false
+  xy: 0, 0
+  size: 248, 248
+  orig: 248, 248
+  offset: 0, 0
+  index: -1
+sad06
+  rotate: false
+  xy: 248, 0
+  size: 248, 248
+  orig: 248, 248
+  offset: 0, 0
+  index: -1
