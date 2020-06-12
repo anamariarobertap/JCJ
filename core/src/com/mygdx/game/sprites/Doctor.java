@@ -17,9 +17,9 @@ public class Doctor extends Character {
         currentState = CharacterState.IDLE;
         previousState = CharacterState.IDLE;
 
-        setBounds(0, 0, 20 / JumpCookieJump.PPM, 20 / JumpCookieJump.PPM);
+        setBounds(0, 0, 30 / JumpCookieJump.PPM, 30 / JumpCookieJump.PPM);
 
-        idle = createAnimation("sprites/doctor/idle/idle.atlas");
+        idle = createAnimation("sprites/doctor/idle1.atlas");
 
     }
 

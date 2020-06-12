@@ -33,7 +33,7 @@ public class Ingredient extends Character {
 
         // testing rectangle
         pShape = new PolygonShape();
-        pShape.setAsBox(10 / JumpCookieJump.PPM, 10 / JumpCookieJump.PPM);
+        pShape.setAsBox(5 / JumpCookieJump.PPM, 5 / JumpCookieJump.PPM);
 
         fDef = new FixtureDef();
         fDef.shape = pShape;

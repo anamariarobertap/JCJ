@@ -32,17 +32,6 @@ public class MenuScreen extends AbstractScreen {
         backgroundImage.setSize(JumpCookieJump.V_WIDTH, JumpCookieJump.V_HEIGHT);
         stage.addActor(backgroundImage);
 
-        // Creating a style for the Title // can be done in future with style.json
-//        Label.LabelStyle label1Style = new Label.LabelStyle();
-//        label1Style.font = new BitmapFont();
-//        label1Style.fontColor = Color.RED;
-
-//        Label title = new Label("Title Screen", label1Style);
-//        title.setAlignment(Align.center);
-//        title.setY((float) Gdx.graphics.getHeight() * 2 / 3);
-//        title.setWidth(Gdx.graphics.getWidth());
-//        stage.addActor(title);
-
         handleButton("Play Game", 0, game.gameScreen);
         handleButton("Settings", 1, game.settingsScreen);
         handleButton("Select Level", 2, game.levelSelectScreen);
