@@ -24,7 +24,7 @@ public class Doctor extends Character {
     protected void defineCharacter() {
 
         bDef = new BodyDef();
-        bDef.type = BodyDef.BodyType.DynamicBody;
+        bDef.type = BodyDef.BodyType.StaticBody;
         bDef.position.set(200 / JumpCookieJump.PPM, 200 / JumpCookieJump.PPM);
 
         // testing rectangle

@@ -37,6 +37,7 @@ import com.mygdx.game.sprites.Ingredient;
 import com.mygdx.game.sprites.Nurse;
 import com.mygdx.game.sprites.Player;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -47,6 +48,8 @@ import static java.lang.StrictMath.min;
 public class GameScreen extends AbstractScreen {
 
 
+    private static int life = 3;
+    private final Music doctorMusic;
     private Texture backgroundTexture;
     private Image backgroundImage;
 
@@ -71,12 +74,13 @@ public class GameScreen extends AbstractScreen {
     private Player cookieMaster;
     private int jumpCounter = 0;
 
-    // Nurse 1
-    private final Nurse nurse1;
+    // Nurses
 
-    //Doctor1
+    private static ArrayList<Nurse> nurses;
 
-    private final Doctor doc1;
+    //Doctors
+    private static ArrayList <Doctor> doctors;
+
 
     //Ingredient
     private Ingredient ingredient1;
@@ -90,7 +94,7 @@ public class GameScreen extends AbstractScreen {
     private Ingredient ingredient9;
     private Ingredient ingredient10;
 
-    private Array <Ingredient> ingredientArrays;
+    private ArrayList <Ingredient> ingredientArrays;
 
     //score label
     private static Label scoreLabel;
@@ -127,34 +131,56 @@ public class GameScreen extends AbstractScreen {
 
         buildMapCollisionObjects();
 
+        nurses = new ArrayList<>();
+        for (int i = 0; i<15;i++)
+        {
+            Nurse n = new Nurse (world);
+            n.setSpawnPosition(new Random().nextFloat()*(33), new Random().nextFloat() +0.5f);
+            nurses.add(n);
+        }
+
+        doctors = new ArrayList<>();
+        for (int i = 0; i<7; i++)
+        {
+            Doctor d = new Doctor(world);
+            d.setSpawnPosition(new Random().nextFloat()*(33), new Random().nextFloat() +0.5f);
+            doctors.add(d);
+        }
+
+        ingredientArrays = new ArrayList<>();
+        for (int i = 0; i<7; i++)
+        {
+            Ingredient in = new Ingredient(world);
+            in.setSpawnPosition(new Random().nextFloat()*(30), new Random().nextFloat() +1.5f);
+            ingredientArrays.add(in);
+        }
+
+
         cookieMaster = new Player(world);
-        nurse1 = new Nurse(world);
-        doc1 = new Doctor(world);
-        doc1.setSpawnPosition(1.7f, 1f);
 
 
 
         //generate 10 ingredients
         ingredient1=new Ingredient(world);
-        ingredient1.setSpawnPosition((new Random().nextFloat()*1)+1f,0.4f);
-       ingredient2=new Ingredient(world);
-        ingredient2.setSpawnPosition((new Random().nextFloat()*1)+1f,0.4f );
-         ingredient3=new Ingredient(world);
-        ingredient3.setSpawnPosition(new Random().nextFloat()*6+1f,new Random().nextFloat() );
+        ingredient1.setSpawnPosition(new Random().nextFloat()*(30-1),new Random().nextFloat()*(2f));
+        ingredient2=new Ingredient(world);
+        ingredient2.setSpawnPosition(new Random().nextFloat()*(30-1),new Random().nextFloat()*(2f));
+        ingredient3=new Ingredient(world);
+        ingredient3.setSpawnPosition(new Random().nextFloat()*(30-1),new Random().nextFloat()*(1f));
         ingredient4=new Ingredient(world);
-        ingredient4.setSpawnPosition(new Random().nextFloat()*8+1f,new Random().nextFloat());
+        ingredient4.setSpawnPosition(new Random().nextFloat()*(30-1),new Random().nextFloat()*(2f));
         ingredient5=new Ingredient(world);
-        ingredient5.setSpawnPosition(new Random().nextFloat()*4+1f,new Random().nextFloat() );
+        ingredient5.setSpawnPosition(new Random().nextFloat()*(30-1),new Random().nextFloat()*(2f));
         ingredient6=new Ingredient(world);
-        ingredient6.setSpawnPosition(new Random().nextFloat()*6+1f,new Random().nextFloat() );
+        ingredient6.setSpawnPosition(new Random().nextFloat()*(30-1),new Random().nextFloat()*(2f));
         ingredient7=new Ingredient(world);
-        ingredient7.setSpawnPosition(new Random().nextFloat()*3+1f,new Random().nextFloat() );
+        ingredient7.setSpawnPosition(new Random().nextFloat()*(30-1),new Random().nextFloat()*(2f));
         ingredient8=new Ingredient(world);
-        ingredient8.setSpawnPosition(new Random().nextFloat()*3+1f,new Random().nextFloat() );
+        ingredient8.setSpawnPosition(new Random().nextFloat()*(30-1),new Random().nextFloat()*(3f));
         ingredient9=new Ingredient(world);
-        ingredient9.setSpawnPosition(new Random().nextFloat()*3+1f,new Random().nextFloat() );
+        ingredient9.setSpawnPosition(new Random().nextFloat()*(30-1),new Random().nextFloat()*(2f));
         ingredient10=new Ingredient(world);
-        ingredient10.setSpawnPosition(new Random().nextFloat()*5+1f,new Random().nextFloat());
+        ingredient10.setSpawnPosition(new Random().nextFloat()*(30-1),new Random().nextFloat()*(1f));
 
 
 
@@ -183,15 +209,37 @@ public class GameScreen extends AbstractScreen {
         gameMusic.setLooping(true);
 
         // nurse sound
-        nurseMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/ingame/nurse/nurse1.mp3"));
+        nurseMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/ingame/nurse/nurse"+getRandomNurseMusic()+".mp3"));
         nurseMusic.setVolume(0.4f);
         nurseMusic.setLooping(false);
+
+        //doctor sound
+        doctorMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/ingame/doctor/doctor"+getRandomNurseMusic()+".mp3"));
+        doctorMusic.setVolume(0.4f);
+        doctorMusic.setLooping(false);
     }
 
     public static void addScore(int value){
         score += value;
         scoreName = "score" + score;
 
+    }
+
+    public static void addLife(int value)
+    {
+        life +=value;
+    }
+
+    private String getRandomNurseMusic() {
+        Random r = new Random();
+        switch (r.nextInt(3)) {
+            case 1:
+                return "1";
+            case 2:
+                return "2";
+            default:
+                return "3";
+        }
     }
 
     private void buildMapCollisionObjects() {
@@ -236,36 +284,76 @@ public class GameScreen extends AbstractScreen {
             body.createFixture(fDef);
         }
 
+
         world.setContactListener(new ContactListener() {
             @Override
             public void beginContact(Contact contact) {
 
-               // check the collision nurse with the doctor
-                if ((contact.getFixtureA().getBody() == doc1.getBody()) && contact.getFixtureB().getBody() == nurse1.getBody() ||
-                        (contact.getFixtureA().getBody() == nurse1.getBody() &&
-                                contact.getFixtureB().getBody() == doc1.getBody())) {
-                    System.out.println("doc touched");
-                    nurse1.reverseVelocity(true,false);
-                    nurse1.reverseVelocity(true,false);
-                    System.out.println(score);
-                    // ====
+                // check the collision with the Ingredient
+                for (Ingredient ingredient :ingredientArrays) {
+                    if ((contact.getFixtureA().getBody() == ingredient.getBody()) && contact.getFixtureB().getBody() == cookieMaster.getBody() ||
+                            (contact.getFixtureA().getBody() == cookieMaster.getBody() &&
+                                    contact.getFixtureB().getBody() == ingredient.getBody())) {
+                        System.out.println("Ingredient touched");
+                        addScore(1);
+                        System.out.println(score);
+                    }
+                }
+
+                //check the collision with the doctor
+
+                for ( Doctor d : doctors
+                ) {
+
+
+                    if ((contact.getFixtureA().getBody() == cookieMaster.getBody() &&
+                            contact.getFixtureB().getBody() == d.getBody())
+                            ||
+                            (contact.getFixtureA().getBody() == d.getBody() &&
+                                    contact.getFixtureB().getBody() == cookieMaster.getBody())) {
+                        doctorMusic.play();
+                        addLife(1);
+                        System.out.println("Life is"+life);
+                    }
+
 
                 }
+
                 //check the collision with the nurse
-                if ((contact.getFixtureA().getBody() == cookieMaster.getBody() &&
-                        contact.getFixtureB().getBody() == nurse1.getBody())
-                        ||
-                        (contact.getFixtureA().getBody() == nurse1.getBody() &&
-                                contact.getFixtureB().getBody() == cookieMaster.getBody())) {
-                    nurseMusic.play();
-                    nurse1.reverseVelocity(true, false);
+                for (Nurse n : nurses
+                ) {
 
-                    System.out.println("Nurse touched");
-                    nurse1.reverseVelocity(true, false);
-                    addScore(-1);
-                    System.out.println(score);
+
+                    if ((contact.getFixtureA().getBody() == cookieMaster.getBody() &&
+                            contact.getFixtureB().getBody() == n.getBody())
+                            ||
+                            (contact.getFixtureA().getBody() == n.getBody() &&
+                                    contact.getFixtureB().getBody() == cookieMaster.getBody())) {
+                        nurseMusic.play();
+                        n.reverseVelocity(true, false);
+                        addScore(-1);
+                        addLife(-1);
+                        System.out.println("Score is"+score);
+                        System.out.println("Life is"+life);
+                    }
+
+
                 }
-            }
+
+                //check if the nurse interracts with something else
+                for (Nurse n : nurses
+                ) {
+
+                    if ((contact.getFixtureA().getBody() != cookieMaster.getBody() &&
+                            contact.getFixtureB().getBody() == n.getBody())
+                            ||
+                            (contact.getFixtureA().getBody() == n.getBody() &&
+                                    contact.getFixtureB().getBody() != cookieMaster.getBody())) {
+                        n.reverseVelocity(true, false);
+
+                    }
+                    }
+                }
 
             @Override
             public void endContact(Contact contact) {
@@ -282,6 +370,7 @@ public class GameScreen extends AbstractScreen {
 
             }
         });
+
     }
 
 
@@ -384,9 +473,22 @@ public class GameScreen extends AbstractScreen {
         b2dRenderer.render(world, cam.combined);
 
         cookieMaster.update(delta);
-        nurse1.update(delta);
 
-        doc1.update(delta);
+        for (Nurse n: nurses
+             ) {
+            n.update(delta);
+        }
+
+        for (Doctor d: doctors
+             ) {
+            d.update(delta);
+        }
+
+        for (Ingredient i: ingredientArrays
+             ) {
+            i.update(delta);
+        }
+
         ingredient1.update(delta);
         ingredient2.update(delta);
         ingredient3.update(delta);
@@ -398,10 +500,6 @@ public class GameScreen extends AbstractScreen {
         ingredient9.update(delta);
         ingredient10.update(delta);
 
-       // for (Ingredient i:ingredientArrays
-        //) {
-         //   i.update(delta);
-        //}
 
         // render player textures
         stage.getBatch().setProjectionMatrix(cam.combined);
@@ -413,8 +511,8 @@ public class GameScreen extends AbstractScreen {
 
         cookieMaster.draw(stage.getBatch());
         ingredient1.draw(stage.getBatch());
-       ingredient2.draw(stage.getBatch());
-         ingredient3.draw(stage.getBatch());
+        ingredient2.draw(stage.getBatch());
+        ingredient3.draw(stage.getBatch());
         ingredient4.draw(stage.getBatch());
         ingredient5.draw(stage.getBatch());
         ingredient6.draw(stage.getBatch());
@@ -426,8 +524,21 @@ public class GameScreen extends AbstractScreen {
           //   ) {
            // i.draw(stage.getBatch());
         //}
-        nurse1.draw(stage.getBatch());
-        doc1.draw(stage.getBatch());
+
+        for (Nurse n: nurses
+             ) {
+            n.draw(stage.getBatch());
+        }
+
+        for (Doctor d : doctors)
+        {
+            d.draw(stage.getBatch());
+        }
+
+        for (Ingredient i :ingredientArrays)
+        {
+            i.draw(stage.getBatch());
+        }
         stage.getBatch().end();
 
         stage.getBatch().setProjectionMatrix(cam.combined);
