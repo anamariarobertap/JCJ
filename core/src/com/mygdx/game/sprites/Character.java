@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.game.JumpCookieJump;
 
 public abstract class Character extends Sprite {
 
@@ -26,13 +27,13 @@ public abstract class Character extends Sprite {
 	protected BodyDef bDef;
 	protected FixtureDef fDef;
 	protected PolygonShape pShape;
-	
+
 	protected CharacterState currentState;
 	protected CharacterState previousState;
 	protected boolean runningRight;
 	protected float stateTimer;
 	protected TextureAtlas atlas;
-	
+
 	public Character(World world) {
 		this.world = world;
 		defineCharacter();
@@ -40,20 +41,23 @@ public abstract class Character extends Sprite {
 	}
 
 	protected abstract void defineCharacter();
-	
+
 	public abstract void update(float delta);
-	
+
 	protected abstract TextureRegion getFrame(float delta);
-	
+
 	protected abstract CharacterState getState();
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	protected Animation createAnimation(String atlasFile) {
-		atlas = new TextureAtlas(atlasFile);
-		
-		return new Animation(0.1f, atlas.createSprites());
+	public void setSpawnPosition(float x, float y) {
+		body.setTransform(x, y, body.getAngle());
 	}
-	
+
+	protected Animation<TextureRegion> createAnimation(String atlasFile) {
+		atlas = new TextureAtlas(atlasFile);
+
+		return new Animation<>(0.1f, atlas.createSprites());
+	}
+
 	public World getWorld() {
 		return world;
 	}
@@ -85,7 +89,7 @@ public abstract class Character extends Sprite {
 	public void setfDef(FixtureDef fDef) {
 		this.fDef = fDef;
 	}
-	
+
 	public PolygonShape getcShape() {
 		return pShape;
 	}

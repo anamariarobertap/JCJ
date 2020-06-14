@@ -7,5 +7,5 @@ public enum CharacterState {
 	RUN,
 	SAD,
 	FALL,
-	cocoa
+    ingredient
 }

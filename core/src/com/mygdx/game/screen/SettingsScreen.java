@@ -92,6 +92,18 @@ public class SettingsScreen extends AbstractScreen {
         Table buttonTable = new Table(skin);
 
         TextButton buttonA = new TextButton("LEFT", skin);
+        buttonA.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                while (!keyDown(event, Input.Keys.ANY_KEY)) {
+                    System.out.println("Hallo");
+                }
+            }
+        });
+        // TODO : maybe adding a CatchBackKey
+
+
         TextButton buttonB = new TextButton("RIGHT", skin);
 
         backButton = MenuButton.getMenuButton("Back to Menu", 75, 300);
@@ -125,7 +137,7 @@ public class SettingsScreen extends AbstractScreen {
         table.row().expandX().fillX();;
         table.add(checkBoxA).expandX().fillX();
         table.add(checkBoxB).expandX().fillX();
-        table.add(checkBoxC).expandX().fillX();
+        table.add(buttonA).expandX().fillX();
         table.row().expandX().fillX();
 
         table.add(buttonTable).colspan(3);

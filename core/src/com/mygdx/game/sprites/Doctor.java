@@ -8,19 +8,16 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.JumpCookieJump;
 
+import java.util.Random;
+
 public class Doctor extends Character {
 
-    private Animation idle;
+    private final Animation<TextureRegion> idle;
     public Doctor(World world) {
         super(world);
 
-        currentState = CharacterState.IDLE;
-        previousState = CharacterState.IDLE;
-
         setBounds(0, 0, 30 / JumpCookieJump.PPM, 30 / JumpCookieJump.PPM);
-
-        idle = createAnimation("sprites/doctor/idle1.atlas");
-
+        idle = createAnimation("sprites/doctor/idle" + getRandomDoctor() + ".atlas");
     }
 
     @Override
@@ -50,24 +47,17 @@ public class Doctor extends Character {
 
     @Override
     protected TextureRegion getFrame(float delta) {
-        currentState = getState();
-        Animation currentAnim;
-        boolean loopingAnim;
-        switch (currentState) {
-            default:
-                loopingAnim = true;
-                currentAnim = idle;
-                break;}
-        TextureRegion region = (TextureRegion) currentAnim.getKeyFrame(stateTimer, loopingAnim);
-
-        stateTimer = currentState == previousState ? stateTimer + delta : 0;
-        previousState = currentState;
-
-        return region;
+        stateTimer+=delta*0.75;
+        return idle.getKeyFrame(stateTimer, true);
     }
 
     @Override
     protected CharacterState getState() {
         return CharacterState.IDLE;
+    }
+
+    private int getRandomDoctor() {
+        Random r = new Random();
+        return r.nextInt(4) + 1;
     }
 }

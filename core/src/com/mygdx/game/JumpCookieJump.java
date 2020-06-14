@@ -11,7 +11,7 @@ public class JumpCookieJump extends Game {
 
 	public static final int V_WIDTH = 1920;
 	public static final int V_HEIGHT = 1080;
-//	public static final int V_SCALE = 6;
+	//	public static final int V_SCALE = 6;
 	public static final float PPM = 100; // pixels per meter
 	public static final short COOKIE_BIT =2;
 	public static final short COCOA_BIT =4;
@@ -54,7 +54,7 @@ public class JumpCookieJump extends Game {
 		batch.end();*/
 		super.render();
 	}
-	
+
 	@Override
 	public void dispose () {
 		batch.dispose();

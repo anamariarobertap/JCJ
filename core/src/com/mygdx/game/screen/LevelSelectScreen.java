@@ -27,17 +27,6 @@ public class LevelSelectScreen extends AbstractScreen {
         backgroundImage.setSize(JumpCookieJump.V_WIDTH, JumpCookieJump.V_HEIGHT);
         stage.addActor(backgroundImage);
 
-        // Creating a style for the Title // can be done in future with style.json
-//        Label.LabelStyle label1Style = new Label.LabelStyle();
-//        label1Style.font = new BitmapFont();
-//        label1Style.fontColor = Color.RED;
-//
-//        Label title = new Label("Select Level Screen", label1Style);
-//        title.setAlignment(Align.center);
-//        title.setY((float) Gdx.graphics.getHeight()*2/3);
-//        title.setWidth(Gdx.graphics.getWidth());
-//        stage.addActor(title);
-
         // create a TextButton
 //        handlePlayButton();
         handleButtons(3);

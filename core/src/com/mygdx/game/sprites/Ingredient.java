@@ -1,28 +1,23 @@
 package com.mygdx.game.sprites;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.JumpCookieJump;
 
-import javax.swing.*;
+import java.util.Random;
 
 public class Ingredient extends Character {
 
-
-    private final int BLANK_COCOA = 28;
-    private Animation cocoa;
+    private static final float SCALE = 0.5f;
+    private final Animation<TextureRegion> ingredient;
 
     public Ingredient(World world) {
         super(world);
 
-        currentState = CharacterState.cocoa;
-        previousState = CharacterState.cocoa;
-        cocoa = createAnimation("sprites/incredients/cocoa.atlas");
-        setBounds(3, 3, 25 / JumpCookieJump.PPM, 25 / JumpCookieJump.PPM);
-
-
+        ingredient = createAnimation("sprites/ingredients/" + getRandomIncredient() + ".atlas");
+        super.setScale(SCALE);
+        setBounds(0, 0, 25 / JumpCookieJump.PPM, 25 / JumpCookieJump.PPM);
     }
 
     @Override
@@ -31,7 +26,6 @@ public class Ingredient extends Character {
         bDef.type = BodyDef.BodyType.StaticBody;
         bDef.position.set(250/ JumpCookieJump.PPM, 200 / JumpCookieJump.PPM);
 
-        // testing rectangle
         pShape = new PolygonShape();
         pShape.setAsBox(5 / JumpCookieJump.PPM, 5 / JumpCookieJump.PPM);
 
@@ -45,44 +39,37 @@ public class Ingredient extends Character {
         fixture.setUserData(this);
 
         pShape.dispose();
-
     }
 
     @Override
     public void update(float delta) {
-        setPosition(body.getPosition().x - getWidth() / 2 - 1.5f / JumpCookieJump.PPM,
-                body.getPosition().y - getHeight() / 2 + 2.5f / JumpCookieJump.PPM);
+        setPosition(body.getPosition().x - getWidth()*SCALE/2,
+                body.getPosition().y - getHeight()*SCALE/2);
         setRegion(getFrame(delta));
     }
 
     @Override
     protected TextureRegion getFrame(float delta) {
-        currentState = getState();
-
-        boolean loopingAnim;
-        Animation currentAnim;
-
-        if (currentState == CharacterState.cocoa) {
-            loopingAnim = false;
-            currentAnim = cocoa;
-        }
-        else {
-            loopingAnim = true;
-            currentAnim = cocoa;
-        }
-
-        TextureRegion region = (TextureRegion) currentAnim.getKeyFrame(stateTimer, loopingAnim);
-        stateTimer = currentState == previousState ? stateTimer + delta : 0;
-        previousState = currentState;
-
-        return region;
+        stateTimer += delta;
+        return ingredient.getKeyFrame(stateTimer, true);
     }
 
     @Override
     protected CharacterState getState() {
-        return CharacterState.cocoa;
+        return CharacterState.ingredient;
     }
 
-
-
+    private String getRandomIncredient() {
+        Random r = new Random();
+        switch (r.nextInt(4)) {
+            case 0:
+                return "cocoa";
+            case 1:
+                return "egg";
+            case 2:
+                return "milk";
+            default:
+                return "sugar";
+        }
+    }
 }

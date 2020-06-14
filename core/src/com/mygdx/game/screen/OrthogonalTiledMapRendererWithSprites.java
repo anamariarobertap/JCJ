@@ -1,7 +1,5 @@
 package com.mygdx.game.screen;
 
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;

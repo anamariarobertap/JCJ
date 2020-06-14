@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
@@ -27,7 +26,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
@@ -40,6 +38,7 @@ import com.mygdx.game.sprites.Nurse;
 import com.mygdx.game.sprites.Player;
 
 import java.util.Arrays;
+import java.util.Random;
 
 import static java.lang.Math.max;
 import static java.lang.Math.nextUp;
@@ -73,15 +72,25 @@ public class GameScreen extends AbstractScreen {
     private int jumpCounter = 0;
 
     // Nurse 1
-    private Nurse nurse1;
+    private final Nurse nurse1;
 
     //Doctor1
 
-    private Doctor doc1;
+    private final Doctor doc1;
 
-    //Ingredient - Cocoa
-    private Ingredient cocoa;
-    private Array<Ingredient> ingredientArrays;
+    //Ingredient
+    private Ingredient ingredient1;
+    private Ingredient ingredient2;
+    private Ingredient ingredient3;
+    private Ingredient ingredient4;
+    private Ingredient ingredient5;
+    private Ingredient ingredient6;
+    private Ingredient ingredient7;
+    private Ingredient ingredient8;
+    private Ingredient ingredient9;
+    private Ingredient ingredient10;
+
+    private Array <Ingredient> ingredientArrays;
 
     //score label
     private static Label scoreLabel;
@@ -103,7 +112,6 @@ public class GameScreen extends AbstractScreen {
     public GameScreen(final JumpCookieJump game, int level) {
         super(game);
 
-
         // orthographic: no 3 axis
         cam = new OrthographicCamera();
         // fitviewport is good bc the screens scale themselves to match the app window
@@ -119,13 +127,36 @@ public class GameScreen extends AbstractScreen {
 
         buildMapCollisionObjects();
 
-
-
         cookieMaster = new Player(world);
         nurse1 = new Nurse(world);
         doc1 = new Doctor(world);
+        doc1.setSpawnPosition(1.7f, 1f);
 
-        cocoa = new Ingredient(world);
+
+
+        //generate 10 ingredients
+        ingredient1=new Ingredient(world);
+        ingredient1.setSpawnPosition((new Random().nextFloat()*1)+1f,0.4f);
+       ingredient2=new Ingredient(world);
+        ingredient2.setSpawnPosition((new Random().nextFloat()*1)+1f,0.4f );
+         ingredient3=new Ingredient(world);
+        ingredient3.setSpawnPosition(new Random().nextFloat()*6+1f,new Random().nextFloat() );
+        ingredient4=new Ingredient(world);
+        ingredient4.setSpawnPosition(new Random().nextFloat()*8+1f,new Random().nextFloat());
+        ingredient5=new Ingredient(world);
+        ingredient5.setSpawnPosition(new Random().nextFloat()*4+1f,new Random().nextFloat() );
+        ingredient6=new Ingredient(world);
+        ingredient6.setSpawnPosition(new Random().nextFloat()*6+1f,new Random().nextFloat() );
+        ingredient7=new Ingredient(world);
+        ingredient7.setSpawnPosition(new Random().nextFloat()*3+1f,new Random().nextFloat() );
+        ingredient8=new Ingredient(world);
+        ingredient8.setSpawnPosition(new Random().nextFloat()*3+1f,new Random().nextFloat() );
+        ingredient9=new Ingredient(world);
+        ingredient9.setSpawnPosition(new Random().nextFloat()*3+1f,new Random().nextFloat() );
+        ingredient10=new Ingredient(world);
+        ingredient10.setSpawnPosition(new Random().nextFloat()*5+1f,new Random().nextFloat());
+
+
 
         // adding the background
         backgroundTexture = new Texture("background/game_background.jpg");
@@ -144,19 +175,17 @@ public class GameScreen extends AbstractScreen {
         title.setWidth(Gdx.graphics.getWidth());
         stage.addActor(title);
 
-
-
         handleBackButton();
 
         // game music
         gameMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/ingame/game.mp3"));
-        nurseMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/ingame/nurse/nurse1.mp3"));
-        nurseMusic.setVolume(0.4f);
-        nurseMusic.setLooping(false);
-
         gameMusic.setVolume(0.3f);
         gameMusic.setLooping(true);
 
+        // nurse sound
+        nurseMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/ingame/nurse/nurse1.mp3"));
+        nurseMusic.setVolume(0.4f);
+        nurseMusic.setLooping(false);
     }
 
     public static void addScore(int value){
@@ -211,13 +240,16 @@ public class GameScreen extends AbstractScreen {
             @Override
             public void beginContact(Contact contact) {
 
-                // check the collision with the Ingredient
-                if ((contact.getFixtureA().getBody() == cocoa.getBody()) && contact.getFixtureB().getBody() == cookieMaster.getBody() ||
-                        (contact.getFixtureA().getBody() == cookieMaster.getBody() &&
-                                contact.getFixtureB().getBody() == cocoa.getBody())) {
-                    System.out.println("ingredient touched");
-                    addScore(1);
+               // check the collision nurse with the doctor
+                if ((contact.getFixtureA().getBody() == doc1.getBody()) && contact.getFixtureB().getBody() == nurse1.getBody() ||
+                        (contact.getFixtureA().getBody() == nurse1.getBody() &&
+                                contact.getFixtureB().getBody() == doc1.getBody())) {
+                    System.out.println("doc touched");
+                    nurse1.reverseVelocity(true,false);
+                    nurse1.reverseVelocity(true,false);
                     System.out.println(score);
+                    // ====
+
                 }
                 //check the collision with the nurse
                 if ((contact.getFixtureA().getBody() == cookieMaster.getBody() &&
@@ -225,11 +257,11 @@ public class GameScreen extends AbstractScreen {
                         ||
                         (contact.getFixtureA().getBody() == nurse1.getBody() &&
                                 contact.getFixtureB().getBody() == cookieMaster.getBody())) {
-
-                    //cookieMaster.getBody().applyForceToCenter(0, MathUtils.random(0f, 0.2f), true);
-                    nurse1.getBody().setLinearVelocity(10f / JumpCookieJump.PPM,Gdx.input.getY());
                     nurseMusic.play();
+                    nurse1.reverseVelocity(true, false);
+
                     System.out.println("Nurse touched");
+                    nurse1.reverseVelocity(true, false);
                     addScore(-1);
                     System.out.println(score);
                 }
@@ -237,7 +269,6 @@ public class GameScreen extends AbstractScreen {
 
             @Override
             public void endContact(Contact contact) {
-
 
             }
 
@@ -251,10 +282,10 @@ public class GameScreen extends AbstractScreen {
 
             }
         });
-        }
+    }
 
 
-	public static double[] convertFloatsToDoubles(float[] input) {
+    public static double[] convertFloatsToDoubles(float[] input) {
         double[] output = new double[input.length];
         for (int i = 0; i < input.length; i++)
         {
@@ -295,27 +326,6 @@ public class GameScreen extends AbstractScreen {
         }
 
     }
-
-
-
-        /*if(Gdx.input.isTouched()) { // Detect is finger on the screen
-            int x = Gdx.input.getX(); // get x touch coordination
-            int y = Gdx.input.getY(); // get y touch coordination
-
-            if(x < Gdx.graphics.getWidth()/2) { // First half Screen ==> move backward
-                nurse.getBody().setLinearVelocity(-10f / JumpCookieJump.PPM,y);
-            }else if(x >= Gdx.graphics.getHeight() /2) { // Second half Screen ==> move forward
-                nurse.getBody().setLinearVelocity(10f / JumpCookieJump.PPM,y);
-            }
-        }else { // no finger is on the screen
-        nurse.getBody().setLinearVelocity(0,0); // ==> no moving body
-           // nurse.getWorld().destroyBody(nurse.getBody());
-    }
-
-    }*/
-
-
-
 
     @Override
     public void show() {
@@ -375,22 +385,47 @@ public class GameScreen extends AbstractScreen {
 
         cookieMaster.update(delta);
         nurse1.update(delta);
-        cocoa.update(delta);
+
         doc1.update(delta);
+        ingredient1.update(delta);
+        ingredient2.update(delta);
+        ingredient3.update(delta);
+        ingredient4.update(delta);
+        ingredient5.update(delta);
+        ingredient6.update(delta);
+        ingredient7.update(delta);
+        ingredient8.update(delta);
+        ingredient9.update(delta);
+        ingredient10.update(delta);
 
-
+       // for (Ingredient i:ingredientArrays
+        //) {
+         //   i.update(delta);
+        //}
 
         // render player textures
         stage.getBatch().setProjectionMatrix(cam.combined);
-        Batch batch = stage.getBatch();
-        batch.begin();
+        stage.getBatch().begin();
 
-        font.draw(batch,scoreName,0.05f,0.5f);
-
-
+        font.setColor(1,1,1,1);
+        font.draw(stage.getBatch(),scoreName,25,100);
+        System.out.println("Cookie: " + cookieMaster.getBody().getPosition().x + " : " + cookieMaster.getBody().getPosition().y);
 
         cookieMaster.draw(stage.getBatch());
-        cocoa.draw(stage.getBatch());
+        ingredient1.draw(stage.getBatch());
+       ingredient2.draw(stage.getBatch());
+         ingredient3.draw(stage.getBatch());
+        ingredient4.draw(stage.getBatch());
+        ingredient5.draw(stage.getBatch());
+        ingredient6.draw(stage.getBatch());
+        ingredient7.draw(stage.getBatch());
+        ingredient8.draw(stage.getBatch());
+        ingredient9.draw(stage.getBatch());
+        ingredient10.draw(stage.getBatch());
+        //for (Ingredient i:ingredientArrays
+          //   ) {
+           // i.draw(stage.getBatch());
+        //}
         nurse1.draw(stage.getBatch());
         doc1.draw(stage.getBatch());
         stage.getBatch().end();
@@ -400,13 +435,13 @@ public class GameScreen extends AbstractScreen {
 
         stage.act(delta);
         stage.draw();
+
+        // handleNurse(nurse1);
     }
 
     public float clamp(float var, float max, float min) {
         if(var > min) {
-            if(var < max) {
-                return var;
-            } else return max;
+            return Math.min(var, max);
         } else return min;
         /*
          * var = your variable that you want to clamp.
@@ -448,6 +483,7 @@ public class GameScreen extends AbstractScreen {
 
     protected void stopMusic() {
         gameMusic.stop();
+        nurseMusic.stop();
     }
 
     protected void startMusic() {

@@ -12,8 +12,10 @@ import com.mygdx.game.JumpCookieJump;
 public class Nurse extends Character {
 
 
-    private Animation idle;
-    private Animation run;
+    private final Animation<TextureRegion> idle;
+    private final Animation<TextureRegion> run;
+
+    protected Vector2 velocity;
 
     public Nurse(World world) {
         super(world);
@@ -24,6 +26,7 @@ public class Nurse extends Character {
 
         setBounds(3, 3, 25 / JumpCookieJump.PPM, 25 / JumpCookieJump.PPM);
 
+        velocity = new Vector2(1, 0);
 
         run = createAnimation("sprites/nurse/run_right.atlas");
         idle = createAnimation("sprites/nurse/idle.atlas");
@@ -44,8 +47,8 @@ public class Nurse extends Character {
 
         fDef = new FixtureDef();
         fDef.shape = pShape;
-        fDef.density =0.1f;
-        fDef.restitution = 0.5f;
+//        fDef.density =0.1f;
+//        fDef.restitution = 0.5f;
         //fDef.filter.categoryBits = PHYSICS_ENTITY;
         //fDef.filter.maskBits = WORLD_ENTITY|PHYSICS_ENTITY;
 
@@ -53,14 +56,24 @@ public class Nurse extends Character {
         body.createFixture(fDef);
 
         pShape.dispose();
-        body.setLinearVelocity(0, 0.75f);
     }
+
+	public void reverseVelocity(boolean x, boolean y){
+		if(x)
+			velocity.x = -velocity.x;
+		if(y)
+			velocity.y = -velocity.y;
+	}
 
     @Override
     public void update(float delta) {
         setPosition(body.getPosition().x - getWidth() / 2 - 1.5f / JumpCookieJump.PPM,
                 body.getPosition().y - getHeight() / 2 + 2.5f / JumpCookieJump.PPM);
         setRegion(getFrame(delta));
+
+        if (body.getLinearVelocity().y == 0) {
+        	body.setLinearVelocity(velocity);
+        }
     }
 
     @Override
@@ -68,7 +81,7 @@ public class Nurse extends Character {
         currentState = getState();
 
         boolean loopingAnim;
-        Animation currentAnim;
+        Animation<TextureRegion> currentAnim;
         switch (currentState) {
             case RUN:
                 loopingAnim = true;
@@ -78,8 +91,8 @@ public class Nurse extends Character {
                 loopingAnim = true;
                 currentAnim = idle;
                 break;
-    }
-        TextureRegion region = (TextureRegion) currentAnim.getKeyFrame(stateTimer, loopingAnim);
+        }
+        TextureRegion region = currentAnim.getKeyFrame(stateTimer, loopingAnim);
 
         if ((body.getLinearVelocity().x < 0 || !runningRight) && !region.isFlipX()) {
             region.flip(true, false);
@@ -97,7 +110,7 @@ public class Nurse extends Character {
 
     @Override
     protected CharacterState getState() {
-       if (body.getLinearVelocity().x != 0) {
+        if (body.getLinearVelocity().x != 0) {
             return CharacterState.RUN;
         } else {
             return CharacterState.IDLE;

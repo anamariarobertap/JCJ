@@ -13,23 +13,22 @@ import com.mygdx.game.JumpCookieJump;
 import static com.mygdx.game.JumpCookieJump.COOKIE_BIT;
 
 public class Player extends Character {
-	
-	private Animation happy;
-	private Animation idle;
-	private Animation jump;
-	private Animation run;
-	private Animation sad;
 
+	private final Animation<TextureRegion> happy;
+	private final Animation<TextureRegion> idle;
+	private final Animation<TextureRegion> jump;
+	private final Animation<TextureRegion> run;
+	private final Animation<TextureRegion> sad;
 
 	public Player(World world) {
 		super(world);
-		
+
 		currentState = CharacterState.IDLE;
 		previousState = CharacterState.IDLE;
 		runningRight = true;
-				
-		setBounds(0, 0, 35 / JumpCookieJump.PPM, 35 / JumpCookieJump.PPM);
 		
+		setBounds(0, 0, 35 / JumpCookieJump.PPM, 35 / JumpCookieJump.PPM);
+
 		happy = createAnimation("sprites/cookie/happy.atlas");
 		idle = createAnimation("sprites/cookie/idle.atlas");
 		jump = createAnimation("sprites/cookie/jump_right.atlas");
@@ -38,32 +37,23 @@ public class Player extends Character {
 	}
 
 	public void hitByNurse(Nurse nurse) {
-		reverseVelocity(true, false);
-	}
 
-	protected Vector2 velocity;
-
-	public void reverseVelocity(boolean x, boolean y){
-		if(x)
-			velocity.x = -velocity.x;
-		if(y)
-			velocity.y = -velocity.y;
 	}
 
 	@Override
 	protected void defineCharacter() {
 		bDef = new BodyDef();
 		bDef.type = BodyDef.BodyType.DynamicBody;
-		bDef.position.set(200 / JumpCookieJump.PPM, 200 / JumpCookieJump.PPM);
-		
+		//bDef.position.set(200 / JumpCookieJump.PPM, 200 / JumpCookieJump.PPM);
+
 		pShape = new PolygonShape();
 		pShape.setAsBox(8 / JumpCookieJump.PPM, 13 / JumpCookieJump.PPM);
-		
+
 		fDef = new FixtureDef();
 		fDef.shape = pShape;
 		fDef.filter.categoryBits = JumpCookieJump.COOKIE_BIT;
 		fDef.filter.maskBits = JumpCookieJump.DEFAUL_BIT | JumpCookieJump.COCOA_BIT;
-		
+
 		body = world.createBody(bDef);
 		body.createFixture(fDef);
 		pShape.dispose();
@@ -73,22 +63,28 @@ public class Player extends Character {
 		fDef.isSensor = true;
 
 		body.createFixture(fDef).setUserData("head");
-
+		
+		setSpawnPosition(200 / JumpCookieJump.PPM, 200 / JumpCookieJump.PPM);
 	}
 
 	@Override
 	public void update(float delta) {
-		setPosition(body.getPosition().x - getWidth() / 2 - 1.5f / JumpCookieJump.PPM, 
-					body.getPosition().y - getHeight() / 2 + 2.5f / JumpCookieJump.PPM);
+		setPosition(body.getPosition().x - getWidth() / 2 - 1.5f / JumpCookieJump.PPM,
+				body.getPosition().y - getHeight() / 2 + 2.5f / JumpCookieJump.PPM);
 		setRegion(getFrame(delta));
+		
+		// TODO: remove one lifepoint here
+		if (body.getPosition().y < 0) {
+			setSpawnPosition(200 / JumpCookieJump.PPM, 200 / JumpCookieJump.PPM);
+		}
 	}
 
 	@Override
-	protected TextureRegion getFrame(float delta) {		
+	protected TextureRegion getFrame(float delta) {
 		currentState = getState();
-		
+
 		boolean loopingAnim;
-		Animation currentAnim;
+		Animation<TextureRegion> currentAnim;
 		switch (currentState) {
 			case JUMP:
 				loopingAnim = true;
@@ -104,8 +100,8 @@ public class Player extends Character {
 				break;
 		}
 
-		TextureRegion region = (TextureRegion) currentAnim.getKeyFrame(stateTimer, loopingAnim);
-		
+		TextureRegion region = currentAnim.getKeyFrame(stateTimer, loopingAnim);
+
 		if ((body.getLinearVelocity().x < 0 || !runningRight) && !region.isFlipX()) {
 			region.flip(true, false);
 			runningRight = false;
@@ -113,10 +109,10 @@ public class Player extends Character {
 			region.flip(true, false);
 			runningRight = true;
 		}
-		
+
 		stateTimer = currentState == previousState ? stateTimer + delta : 0;
 		previousState = currentState;
-		
+
 		return region;
 	}
 
